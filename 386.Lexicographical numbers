@@ -1,0 +1,47 @@
+//Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.
+//You must write an algorithm that runs in O(n) time and uses O(1) extra space. 
+//Example:
+//Input: n = 13
+//Output: [1,10,11,12,13,2,3,4,5,6,7,8,9]
+
+#include <iostream>
+#include <vector>
+
+class Solution {
+public:
+    std::vector<int> lexicalOrder(int n) {
+        std::vector<int> result;
+        int current = 1;
+        for (int i = 1; i <= n; ++i) {
+            result.push_back(current);
+            if (current * 10 <= n) {
+                current *= 10;
+            } else if (current % 10 != 9 && current + 1 <= n) {
+                current++;
+            } else {
+                while ((current / 10) % 10 == 9) {
+                    current /= 10;
+                }
+                current = current / 10 + 1;
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    
+    int n;
+    std::cout << "n: ";
+    std::cin >> n;
+
+    std::vector<int> result = sol.lexicalOrder(n);
+    std::cout << "Output: " << n << ": ";
+    for (int num : result) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
