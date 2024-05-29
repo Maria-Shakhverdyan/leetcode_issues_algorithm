@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> current;
+        vector<bool> used(nums.size(), false);
+        generatePermutations(nums, result, current, used);
+        return result;
+    }
+    
+private:
+    void generatePermutations(const vector<int>& nums, vector<vector<int>>& result, vector<int>& current, vector<bool>& used) {
+        if (current.size() == nums.size()) {
+            result.push_back(current);
+            return;
+        }
+        
+        for (int i = 0; i < nums.size(); ++i) {
+            if (!used[i]) {
+                current.push_back(nums[i]);
+                used[i] = true;
+                generatePermutations(nums, result, current, used);
+                used[i] = false;
+                current.pop_back();
+            }
+        }
+    }
+};
+
+int main() {
+    Solution sol;
+    int n;
+    cout << "Enter the number of elements: ";
+    cin >> n;
+    vector<int> nums(n);
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> nums[i];
+    }
+    
+    vector<vector<int>> result = sol.permute(nums);
+    
+    for (const auto& permutation : result) {
+        for (int num : permutation) {
+            cout << num << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
