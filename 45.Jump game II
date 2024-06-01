@@ -1,0 +1,59 @@
+// You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
+
+// Each element nums[i] represents the maximum length of a forward jump from index i. In other words,
+// if you are at nums[i], you can jump to any nums[i + j] where:
+
+// 0 <= j <= nums[i] and
+// i + j < n
+// Return the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that
+// you can reach nums[n - 1].
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    int jump(std::vector<int>& nums) {
+        int n = nums.size();
+        if (n <= 1) return 0;
+
+        int jumps = 0;
+        int maxReach = 0;
+        int currentEnd = 0;
+
+        for (int i = 0; i < n - 1; ++i) {
+            maxReach = std::max(maxReach, i + nums[i]);
+            if (i == currentEnd) {
+                jumps++;
+                currentEnd = maxReach;
+                if (currentEnd >= n - 1) {
+                    break;
+                }
+            }
+        }
+
+        return jumps;
+    }
+};
+
+int main() {
+    Solution solution;
+    std::vector<int> nums;
+    int n, val;
+
+    std::cout << "Enter the number of elements in the array: ";
+    std::cin >> n;
+
+    std::cout << "Enter the elements of the array: ";
+    for (int i = 0; i < n; ++i) {
+        std::cin >> val;
+        nums.push_back(val);
+    }
+
+    int result = solution.jump(nums);
+    std::cout << "Minimum number of jumps: " << result << std::endl;
+
+    return 0;
+}
